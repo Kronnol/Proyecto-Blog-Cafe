@@ -118,40 +118,37 @@ formulario.addEventListener('submit', function (e) {
     const { nombre, email, mensaje } = datos;
 
     if (nombre == '' || email == '' || mensaje == '') {
-        MostrarError('Todos los campos son obligatorios');
+        mostrarAlerta('Todos los campos son obligatorios',true);
         return; /* Esto lo que hace es cortar la ejecucion del codigo */
-    } else {
-        
-    }
+    } 
     /* Enviar el formulario */
 
-    mostrarEnviado('Se envio con Exito');
+    mostrarAlerta('Se envio con Exito');
 
     console.log('Enviando Formulario');
 });
 
-function MostrarError(mensaje) {
 
-const error= document.createElement('P');/* Creamos el elemento html */
-error.textContent = mensaje; /* aqui le pasamos el contenido que queremos mostrar a ese elemento */
-error.classList.add('error');/* Creamos una clase CSS para darle un diseño */
-formulario.appendChild(error);/* aqui lo agregamos al HTML */
+/* Aqui refactorizamos las 2 funciones por una sola */
+function mostrarAlerta(mensaje,error= null){
+const alerta = document.createElement('p');/* Creamos el elemento html */
+alerta.textContent = mensaje;/* aqui le pasamos el contenido que queremos mostrar a ese elemento */
 
-/* Que desaparezca luego de 5 segundos */
-setTimeout(() => {
-    error.remove();/* para desaparecer un objeto HTML*/
-}, 5000);
+if(error){/* Entonces si error es verdadero */
+
+    alerta.classList.add('error');/* Creamos una clase CSS para darle un diseño */
+}else{
+    alerta.classList.add('enviado');/* Creamos una clase CSS para darle un diseño */
 }
 
-function mostrarEnviado(mensaje){
-const enviado = document.createElement('P');
-enviado.textContent = mensaje;
-enviado.classList.add('enviado');
-formulario.appendChild(enviado);
+formulario.appendChild(alerta);/* aqui lo agregamos al HTML */
 setTimeout(() => {
     enviado.remove();/* para desaparecer un objeto HTML*/
 }, 5000);
 }
+
+
+
 
 
 function leerTexto(e) {
